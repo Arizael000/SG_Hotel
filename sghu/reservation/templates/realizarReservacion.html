@@ -1,0 +1,84 @@
+{%extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%} New Reservation {% endblock %}
+
+
+{% block content %}
+
+  <style> 
+      
+  body{
+      background-image: url("{% static 'medias/esteSi.jpg'%}");
+      background-size: 100% 100%;
+  
+  }
+  
+
+      .hide-field {
+          display: none;
+      }
+  </style>
+   
+        <br>
+        <br>
+        
+
+  
+        <div class=" container w-50 bg-white border">
+          <h3 class="card-title text-center fw-bold">Realizar reservación</h3>
+            <form class="for form-control form-row" method="post">
+
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% block forms %}
+                        
+                        {{ form| crispy }}
+                    {% endblock %}
+
+                    <div id="room-details"></div>
+                   
+                  </div>
+                <div class=" justify-content-center">
+                  <div class="row">
+                   
+                        <div class="col-lg-6 mx-auto text-center" id="realizar"><button type="submit" class=" boton-realizar btn btn-primary">Realizar</button>
+                        </div>
+                   
+
+
+                    <div class="col-lg-6 mx-auto text-center" id="cancelar"><a href="{% url 'core:habitaciones' %}" class=" boton-cancelar btn btn-danger float-right">Cancelar</a>
+                    </div>
+                    
+                </div>
+                <br>
+              </div>
+            </form>
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+<script type="text/javascript">
+    var array = {{fechas_no_disponibles_inicio|safe}};
+
+    $("#fechaDeInicio, #fechaDeFin").datepicker({
+        beforeShowDay: function(date) {
+            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [array.indexOf(string) == -1]
+        }
+    });
+    $(document).ready(function() {
+      $("#fechaDeInicio, #fechaDeFin").datepicker("option", "minDate", "+2d");
+      $("#fechaDeFin").datepicker("option", "minDate", "+2d");
+      $("#fechaDeInicio, #fechaDeFin").datepicker("option", "dateFormat", "yy-mm-dd");
+      $("#fechaDeInicio, #fechaDeFin").datepicker("option", "beforeShowDay", function(date) {
+          var string = jQuery.datepicker.formatDate("yy-mm-dd", date);
+          return [array.indexOf(string) == -1];
+      });
+  });
+</script>
+
+{% endblock %}
+

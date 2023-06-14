@@ -1,0 +1,65 @@
+
+form{
+    padding-bottom: 30px;
+}
+form fieldset{
+    text-align: left;
+}
+form fieldset:last-child{
+    margin-top: 30px;
+}
+input[type="text"], input[type="email"], input[type="date"], select{
+    width: 100% !important;
+}
+#cuerpo{
+    width: 70%;
+    border: 2px dashed gray;
+    border-radius: 30px 80px;
+    margin: 0 0 20px 20px;
+}
+#cuerpo, #panelDerecho{
+    margin-top: 0;
+}
+#cuerpo, footer, form fieldset:last-child{
+    text-align: center;
+}
+fieldset, #panelDerecho{
+    width: 23%;
+}
+video, audio{
+    width: 100%;
+    box-shadow: 10px 10px 5px #888888;
+}
+footer{
+    background: black;
+    color: white;
+    padding: 5px 20% 5px 20%;
+    height: 75px;
+}
+footer p:first-child {
+    border-bottom: 1px solid white;
+}
+#copyleft{
+    transform: rotate(180deg);
+    margin-right: 5px;
+}
+#panelDerecho article:last-child{
+    padding: 0px 0px 30px 0px;
+}
+#banner{
+    height: 10%;
+}
+nav, footer{
+    clear: both;
+}
+#logo{
+    margin-right: 10%;
+}
+#titulin{
+    padding:20px;
+   
+}
+.navbar-text{
+    color:white
+}
+

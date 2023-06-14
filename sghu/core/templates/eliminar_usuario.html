@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center bg-secondary h-100 w-100">
+  <div class="text-center text-white">
+    <h1>Eliminar cuenta de usuario</h1>
+    <p>Se eliminará su usuario</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Aceptar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

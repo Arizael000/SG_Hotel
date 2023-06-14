@@ -1,0 +1,86 @@
+{% load static %}
+<div class="row bg-white justify-content-center">
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-11">
+        <br>
+        <h1 class="text-center">Facturas</h1>
+        <div class="table-responsive py-2">
+            <table class="table table-bordered" id="miTabla">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Método de pago</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de fin</th>
+                        <th>Monto</th>
+                        <th>Habitación</th>
+                        <th>Pagada</th>
+                        <th colspan="2">&nbsp&nbsp&nbsp&nbsp&nbspAcciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fact in facturas %}
+                        <tr>
+                            <td class="px-2">
+                                {% for user in  users %}
+                                    {% if user.id == fact.idUsuario.id %}
+                                    <p><strong>{{user.username}}</strong></p>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="px-2">
+                                {% if fact.metodoDePago == "efectivo" %}
+                                    <p>Efectivo</p>
+                                {% else %}
+                                    <p>Tarjeta</p>
+                                {% endif %}
+                            </td>
+                            <td class="px-2">{{ fact.fechaDeInicio }}</td>
+                            <td class="px-2">{{ fact.fechaDeFin }}</td>
+                            <td class="px-2">{{ fact.monto }} CUP</td>
+                            <td class="px-2 col-12 col-md-4">
+                                {% for room in rooms %}
+                                    {% if room.id == fact.idRoom.id %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {% if room.price < 600 %}
+                                                    <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="img-fluid" >
+                                                   {% elif room.price < 800 and room.price >= 600 %}
+                                                      <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                                                     {% elif room.price < 900 and room.price >= 800 %}
+                                                       <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                                      {% elif room.price <= 1000 and room.price >= 900 %}
+                                                        <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>{{ room.description }}</p>
+                                                <p>Precio por día: {{ room.price }} CUP</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="px-2">
+                                {% if fact.pagada %}
+                                    <p>&nbsp&nbspSi</p>
+                                {% else %}
+                                    <p>&nbsp&nbspNo</p>
+                                {% endif %}
+                            </td>
+                            <td class="px-2 actions">
+                                {% if not fact.pagada %}
+                                    <form method="post" action="{% url 'manageFactura_update' fact.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success" type="submit">&nbsp&nbsp&nbspPagada</button>
+                                    </form>
+                                {% else %}
+                                    <button class="disabled btn btn-secondary" type="submit">&nbsp&nbsp&nbspPagada</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

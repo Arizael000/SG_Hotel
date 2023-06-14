@@ -1,0 +1,73 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Habitaciones {% endblock %}
+
+
+
+{% block content %}
+{% if request.user.is_staff %}
+    <div class="container">
+    <div class="bg-white">
+        <br>
+        <br>
+        <div class="row bg-white justify-content-center">
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                <br>
+                <h1 class="text-center">Habitaciones</h1>
+                <div class="card-footer">
+                    {% if not todasHabitaciones  %}
+                    <a  class="btn btn-primary" href="{% url 'anadirRoom' %}">Añadir Habitación</a>
+                    {% else %}
+                    <a  class="btn btn-primary" disabled href="{% url 'anadirRoom' %}">Todas las habitaciones están creadas</a>
+                    {% endif %}
+                </div>
+                <div class="table-responsive py-2">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Descripcion</th>
+                            <th>Precio</th>
+                            <th>Ventilación</th>
+                            <th>Temperatura de agua</th>
+                            <th>Televisión</th>
+                            <th colspan="2">Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if object_list %}
+                            {% for e in object_list %}
+                                
+                                    <tr>
+                                        <td>{{ e.description }}</td>
+                                        <td>{{e.price}}</td>
+                                        <td>{{e.get_ventilacion_display}}</td>
+                                        <td>{{e.get_temperaturaAgua_display}}</td>
+                                        <td>{{e.television}}</td>
+                                        <td><a href="{% url 'modRoom' e.id %}" class="btn"><img src="{% static 'medias/modificar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                        <td><a href="{% url 'eliminarRoom' e.id %}" class="btn" ><img src="{% static 'medias/eliminar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                    </tr> 
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>No hay datos a mostrar</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%else%}
+     <h1 class="text-center ">Acceso Denegado</h1>
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+{%endblock%}
+

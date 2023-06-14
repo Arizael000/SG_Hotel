@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Manage Users {% endblock %}
+{% block content %}
+
+ {% if request.user.is_superuser %}
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5em;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    td.actions {
+      white-space: nowrap;
+    }
+    td.actions form, td.actions a {
+      display: inline-block;
+      margin-right: 0.5em;
+    
+    }
+    
+  </style>
+  <div class="bg-light">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre de usuario</th>
+        <th>Correo electrónico</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Fecha de registro</th>
+        <th>Activo</th>
+        <th>Staff</th>
+        <th>SuperUsuario</th>
+        <th>&nbsp&nbsp&nbsp&nbsp&nbspAcciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        {% if not request.user.username == user.username%}
+        <tr>
+          <td>&nbsp&nbsp{{ user.username }}</td>
+          <td>&nbsp{{ user.email }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.date_joined }}</td>
+          <td>{% if user.is_active %}Si
+            {% else %}NO
+            {% endif %}
+          </td>
+          <td>
+            {% if user.is_staff %}Si
+            {% else %}No
+            {% endif %}</td>
+            <td>
+              {% if user.is_superuser%}Si
+              {% else %}No
+              {% endif %}</td>
+          <td class="actions">
+            <button  class=" btn" onclick="window.location.href='{% url 'editarUsuario' user.id %}'" ><img src="{% static 'medias/modificar.png'%}" alt="" style="width: 40px;"></button>
+            <form method="post" action="{% url 'eliminar_usuario' user.username %}">
+                {% csrf_token %}
+                <button  class=" btn"type="submit"><img src="{% static 'medias/eliminar.png'%}" alt="" style="width: 40px;"></button>
+            </form>
+          </td>
+        </tr>
+         {%endif%}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+     {%else%}
+     <h1 class="text-center ">Acceso Denegado</h1>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+{% endblock %}

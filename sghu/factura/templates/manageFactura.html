@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Administrar Facturas {% endblock %}
+{% block content %}
+{% if request.user.is_staff %}
+
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5em;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    td.actions {
+      white-space: nowrap;
+    }
+    td.actions form, td.actions a {
+      display: inline-block;
+      margin-right: 0.5em;
+    
+    }
+    
+  </style>
+  <script src="{% static 'js\jspdf.umd.min.js'%}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/docx"></script>
+ 
+
+  <div class="row bg-white justify-content-center">
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-11">
+        <br>
+        <h1 class="text-center">Facturas
+            <!-- Agrega un botón para generar el documento Word -->
+<a href="{% url 'ListaFact_toPDF' %}" class="btn"><img src="{% static 'medias/download.png'%}" alt="" style="width: 60px;"></a>
+<!-- Agrega el script para generar el PDF -->
+        </h1>
+        <div class="table-responsive py-2">
+            <table class="table table-bordered" id="miTabla">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Método de pago</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de fin</th>
+                        <th>Monto</th>
+                        <th>Habitación</th>
+                        <th>Pagada</th>
+                        <th colspan="2">&nbsp&nbsp&nbsp&nbsp&nbspAcciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fact in object_list %}
+                        <tr>
+                            <td class="px-2">
+                                {% for user in  users %}
+                                    {% if user.id == fact.idUsuario.id %}
+                                    <p><strong>{{user.username}}</strong></p>
+                                    {% endif %}
+                                
+                                {% endfor %}
+                            </td>
+                            <td class="px-2">
+                                {% if fact.metodoDePago == "efectivo" %}
+                                    <p>Efectivo</p>
+                                 {% else %}
+                                   <p>Tarjeta</p>
+                                {% endif %}
+
+                            </td>
+                            <td class="px-2">{{ fact.fechaDeInicio }}</td>
+                            <td class="px-2">{{ fact.fechaDeFin }}</td>
+                            <td class="px-2">{{ fact.monto }} CUP</td>
+                            <td class="px-2 col-12 col-md-4">
+                                {% for room in rooms %}
+                                    {% if room.id == fact.idRoom.id %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {% if room.price < 600 %}
+                                                    <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="img-fluid" >
+                                                {% elif room.price < 800 and room.price >= 600 %}
+                                                    <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                                                {% elif room.price < 900 and room.price >= 800 %}
+                                                    <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                                {% elif room.price <= 1000 and room.price >= 900 %}
+                                                    <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>{{ room.description }}</p>
+                                                <p>Precio por día: {{ room.price }} CUP</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="px-2">
+                                {% if fact.pagada %}
+                                    <p>Si</p>
+                                {% else %}
+                                    <p>No</p>
+                                {% endif %}
+                            </td>
+                            <td class="px-2 actions">
+                                {% if not fact.pagada %}
+                                    <form method="post" action="{% url 'manageFactura_update' fact.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success" type="submit">Pagada</button>
+                                    </form>
+                                {% else %}
+                                    <button class="disabled btn btn-secondary" type="submit">Pagada</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+       </div>
+     </div>
+  </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<script>
+    function generarDoc() {
+        // Crea un nuevo documento Word
+        const doc = new window.docx.Document();
+    
+        // Agrega un párrafo con el título de la tabla
+        const title = new window.docx.Paragraph("Facturas");
+        title.heading1().center();
+        doc.addParagraph(title);
+    
+        // Agrega una tabla con los datos de las facturas
+        const table = doc.addTable({
+            rows: object_list.length + 1,
+            columns: 8,
+        });
+    
+        // Agrega las cabeceras de la tabla
+        const headers = [
+            "Usuario",
+            "Método de pago",
+            "Fecha de inicio",
+            "Fecha de fin",
+            "Monto",
+            "Habitación",
+            "Pagada",
+            "Acciones",
+        ];
+        for (let i = 0; i < headers.length; i++) {
+            table.getCell(i, 0).addContent(new window.docx.Paragraph(headers[i]));
+        }
+    
+        // Agrega los datos de las facturas
+        for (let i = 0; i < object_list.length; i++) {
+            const fact = object_list[i];
+            const row = table.getRow(i + 1);
+    
+            // Agrega el nombre de usuario
+            let username = "";
+            for (let j = 0; j < users.length; j++) {
+                if (users[j].id == fact.idUsuario.id) {
+                    username = users[j].username;
+                    break;
+                }
+            }
+            row.getCell(0).addContent(new window.docx.Paragraph(username));
+    
+            // Agrega el método de pago
+            let metodoDePago = "";
+            if (fact.metodoDePago == "efectivo") {
+                metodoDePago = "Efectivo";
+            } else {
+                metodoDePago = "Tarjeta";
+            }
+            row.getCell(1).addContent(new window.docx.Paragraph(metodoDePago));
+    
+            // Agrega la fecha de inicio
+            row.getCell(2).addContent(new window.docx.Paragraph(fact.fechaDeInicio));
+    
+            // Agrega la fecha de fin
+            row.getCell(3).addContent(new window.docx.Paragraph(fact.fechaDeFin));
+    
+            // Agrega el monto
+            row.getCell(4).addContent(new window.docx.Paragraph(`${fact.monto} CUP`));
+    
+            // Agrega la habitación
+            let habitacion = "";
+            for (let j = 0; j < rooms.length; j++) {
+                if (rooms[j].id == fact.idRoom.id) {
+                    habitacion = rooms[j].description;
+                    break;
+                }
+            }
+            row.getCell(5).addContent(new window.docx.Paragraph(habitacion));
+    
+            // Agrega si la factura está pagada o no
+            let pagada = "";
+            if (fact.pagada) {
+                pagada = "Si";
+            } else {
+                pagada = "No";
+            }
+            row.getCell(6).addContent(new window.docx.Paragraph(pagada));
+    
+            // Agrega el botón de acciones
+            if (!fact.pagada) {
+                const button = new window.docx.Button("Pagada");
+                button.on("click", () => {
+                    // Aquí puedes agregar el código para marcar la factura como pagada
+                });
+                row.getCell(7).addContent(new window.docx.Paragraph(button));
+            } else {
+                row.getCell(7).addContent(new window.docx.Paragraph(""));
+            }
+        }
+    
+        // Descarga el documento Word
+        window.docx.Packer.toBlob(doc).then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "facturas.docx";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+</script>
+     {%else%}
+     <h1 class="text-center ">Acceso Denegado</h1>
+    {% endif %}
+{% endblock %}
+
+

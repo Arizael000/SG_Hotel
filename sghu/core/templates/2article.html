@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Sign up {% endblock %}
+
+{% block content %}
+
+<!--Banner-->
+<section class="banner bg-white">
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-lg-6">
+        <!-- Aquí irá el primer anuncio o noticia -->
+  
+       
+            <h5 class="fs-3 fw-border border-bottom border-primary border-5 pb-4 fw-bolder"style="text-align: center;">Festivales culturales nocturnos</h5>
+            <div>
+              <p class="fs-5" style="text-align: justify;">
+
+                Nuestra institución se caracteriza por un fuerte movimiento artístico integrado por estudiantes y trabajadores, merecedores de importantes reconocimientos a nivel nacional.
+                
+                La actividad cultural se organiza y coordina desde la Vicerrectoría de Extensión Universitaria, con la colaboración y apoyo de las organizaciones juveniles y estudiantiles.
+                
+                Contamos con profesores e instructores de arte quienes imparten talleres de apreciación y creación, organizan festivales, peñas de trova y literatura, así como intercambios culturales con otros Centros de Educación Superior.
+                </p>
+                <p class="fs-5" style="text-align: justify;">
+                  Como parte de la infraestructura que garantiza el desarrollo de las artes en la Universidad, el Centro Cultural Wifredo Lam dispone de aulas especializadas para teatro, danza, música y artes plásticas. Además cuenta con una sala de video, galería de artes plásticas, librería, complejo recreativo, plazas y teatro.
+                
+                De igual forma, atesoramos 33 obras originales donadas por destacadas figuras de las artes plásticas nacionales, en un entorno concebido como una gran galería de arte al aire libre de elevado valor patrimonial.
+                </p>
+            </div>
+            
+            
+          </div>
+       
+        <div class="col-lg-6">
+          <br>
+          <br>
+          <br>
+          <br>
+          <div>
+            <img src="{% static 'medias/cultura-2.jpg'%}" class="d-block w-80 h-75 img-fluid img-thumbnail" alt="...">
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <div id="boton">
+            <style>
+              #boton{
+                padding-left: 460px;
+              }
+            </style>
+            <a href="{% url 'core:principal' %}" class="btn btn-secondary btn-lg">Volver</a>
+          </div>
+          
+          <br>  
+        </div>
+        
+  
+      </div>
+</section>
+
+   
+    
+  </div>
+</div>
+{% endblock %}

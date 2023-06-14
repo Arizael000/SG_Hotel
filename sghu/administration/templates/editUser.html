@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if request.user.is_superuser %}
+<style>
+  body{
+      background-image: url("{% static 'medias/esteSi.jpg'%}");
+      background-size: 100% 100%;
+  
+  }
+  .user-permissions-field {
+        max-height: 100px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 5px;
+      }
+  </style>
+<br>
+<br>
+
+  <div class="for form-control form-row w-50" action="" style=" margin-left: 350px; display: flex; flex-direction: column;
+  align-items: center;" style="width: 600px; padding: 30px;">
+    {% if request.user.is_staff %}
+    <h1 class="text-center">Editar usuario: {{ user.username }}</h1>
+    <form method="post">
+      {% csrf_token %}
+    <label >Nombre de usuario</label>
+    {{ form.username }}
+    <label >Email</label>
+    {{ form.email }}
+    <label >Nombre:</label>
+    {{ form.first_name }}
+    <label >Apellidos:</label>
+    {{ form.last_name }}
+    <label >Activo: </label>
+    {{ form.is_active }}
+    <label >Es staff: </label>
+    {{ form.is_staff }}
+    <label >Es Super User: </label>
+    {{ form.is_superuser }}
+    <!-- <div class="form-group">
+      <label for="{{ form.user_permissions.id_for_label }}">Permisos de usuario</label>
+      <div class="user-permissions-field">
+        {{ form.user_permissions }}
+      </div>
+    </div> -->
+    <br>
+    <div style="margin-left: 400px;">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+    </div>
+    
+    </form>
+    {% else %}
+    <h1 class="text-center ">Acceso Denegado</h1>
+    {% endif %}
+  </div>
+  
+  {%else%}
+  <h1 class="text-center ">Acceso Denegado</h1>
+ {% endif %}
+
+
+{% endblock %}

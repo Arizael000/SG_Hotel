@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Pagar Factura {% endblock %}
+{% block content %}
+<br>
+<div class="d-flex justify-content-center">
+    <div>
+      <div class="card-header bg-primary text-white">
+        <h3 class="card-title text-center">Pagando Factura</h3>
+      </div>
+      <form class="for form-control form-row" method="post">
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="alert alert-danger">
+                <img src="{% static 'medias\QR.jpg'%}">
+          </div>
+        </div>
+        <div class="card-footer  text-center">
+          <a href="{% url 'userFactura' %}" class="btn btn-danger">Volver</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+

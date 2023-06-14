@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Crear Usuario {% endblock %}
+{% block content %}
+<style>
+  body{
+      background-image: url("{% static 'medias/esteSi.jpg'%}");
+      background-size: 100% 100%;
+  
+  }
+  </style>
+<br>
+<br>
+
+  <div class="for form-control form-row w-50" action="" style=" margin-left: 350px; display: flex; flex-direction: column;
+  align-items: center;" style="width: 600px; padding: 30px;">
+{% if request.user.is_staff %}
+  <h1>Crear usuario:</h1>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary" style="margin-left: 100px;">Guardar cambios</button>
+    <a href="{% url 'users_list' %}" class="btn btn-secondary" style="margin-left: 100px;">Cancelar</a>
+  </form>
+  {% else %}
+  <h1 class="text-center ">Acceso Denegado</h1>
+  {%endif%}
+  </div>
+{% endblock %}

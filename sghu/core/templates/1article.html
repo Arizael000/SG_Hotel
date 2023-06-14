@@ -1,0 +1,71 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Modificar Perfil {% endblock %}
+
+
+
+{% block content %}
+<style>
+    body{
+        background-image: url("{% static 'medias/imagen hotel OK.jpg'%}");
+        background-size: cover;
+    }
+</style>
+<br>
+<div class="text-center">
+  <img src="{% static 'medias\OIP (1).jpg'%}" class="w-75 img-fluid img-thumbnail" alt="...">
+</div>
+<br>
+
+
+<!--Banner-->
+<section class="banner bg-white">
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-md-10 mx-auto">
+        <!-- Aquí irá el primer anuncio o noticia -->
+  
+       
+            <h5 class="fs-3 fw-border border-bottom border-primary border-5 pb-4 fw-bolder"style="text-align: center;">Universidad de las C.I</h5>
+            <div>
+              <p class="fs-5" style="text-align: justify;">
+
+                Nuestro residencia ocupa un lugar importante dentro del área de la Universidad, sus edificios y apartamentos dan la bienvenida a todos los estudiantes y una gran parte de los profesores. Siguiendo las líneas de trabajo del centro y sus principales misiones, la Residencia se convierte en un espacio socialmente educativo y socializante, abierto a la participación y al diálogo a través de actividades educativas, culturales, recreativas y deportivas, dirigidas a la disciplina y compromiso con la patria.
+                </p>
+                <p class="fs-5" style="text-align: justify;">
+                  Dentro de las áreas del Campus se ofrecen otros servicios tales como cafeterías, pizzerías, correos, bancos, barbería, peluquería, salón de belleza, áreas deportivas, tienda, lavandería para el cambio de suministros, entre otros.
+            
+            La formación y superación de sus Especialistas y Técnicos como agentes socializadores es un elemento clave en este contexto educativo para llevar a cabo una labor educativa con calidad y contribuir así a la formación integral de los alumnos. Este trabajo incluye a profesores de los centros, líderes estudiantiles y académicos en general.
+                </p>
+            </div>
+            
+            
+          </div>
+        </div>
+        <br>
+        <br>
+          
+       
+        
+
+          <div id="boton">
+          <style>
+              #boton{
+                padding-left: 940px;
+            }
+          </style>
+        <a href="{% url 'core:principal'%}" class="btn btn-secondary btn-lg">Volver</a>
+        </div>
+        <br>  
+          
+        </div>
+        
+  
+      </div>
+     </section>
+      <br>
+      <br>
+      {%endblock%}
+
+ 
+    </body>

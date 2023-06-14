@@ -1,0 +1,99 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} GestionarReservación {% endblock %}
+
+
+
+{% block content %}
+{% if request.user.is_staff %}
+    <div class="container">
+    <div class="bg-white">
+        <br>
+        <br>
+        <div class="row bg-white justify-content-center">
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-11">
+                <br>
+                <h1 class="text-center">Reservaciones</h1>
+                <div class="table-responsive py-2">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Pago:</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                            <th>Habitación</th>
+                            <th colspan="2">Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if reservations %}
+                            {% for e in reservations %}
+                                
+                                    <tr>
+                                        <td>{{ e.name }}</td>
+                                        <td>{{ e.edad }}</td>
+                                        <td>{{ e.get_metodoDePago_display }}</td>
+                                        <td>{{ e.fechaDeInicio }}</td>
+                                        <td>{{ e.fechaDeFin }}</td>
+                                        <td>
+                                           
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                   {% for room in rooms %}
+                                                        {% if room.id == e.idRoom.id %}
+                                                         {% if room.price < 600 %}
+                                                             <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="h-200 w-100" >
+                                                         {% elif room.price < 800 and room.price >= 600 %}
+                                                             <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                                                         {% elif room.price < 900 and room.price >= 800 %}
+                                                                <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                                         {% elif room.price <= 1000 and room.price >= 900 %}
+                                                             <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+                                                        
+                                                        {% endif %}
+                                                                     
+                                                                     
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <p>{{ room.description }}</p>
+                                                    <p><strong>Precio:</strong> {{ room.price }} CUP</p>
+                                                </div>
+                                            </div> 
+                                             {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td><a href="{% url 'modificarReservaciones' e.id %}" class="btn"><img src="{% static 'medias/modificar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                        <td><a href="{% url 'EliminarReservacionbyAdmin' e.id %}" class="btn" ><img src="{% static 'medias/eliminar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                    </tr>
+                                
+                            {% endfor %}
+                       
+                        </tbody>
+                    </table>
+                </div>
+                        {% else %}
+                            <tr>
+                                <td>No hay datos a mostrar</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%else%}
+<h1 class="text-center ">Acceso Denegado</h1>
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{%endblock%}

@@ -1,0 +1,114 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} GestionarReservación {% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+    <div class="bg-white">
+        <br>
+        <br>
+        <div class="row bg-white justify-content-center">
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-11">
+                <br>
+                <h1 class="text-center">Mis reservaciones</h1>
+                <div class="card-footer">
+                       Reservaciones hechas: <strong>{{reservasPropias|length}}</strong>
+                        <a href="{% url 'core:habitaciones' %}" class="btn btn-primary">Reservar</a>
+                   
+        
+                    <a href="{% url 'userFactura' %}" class="btn btn-success float-end">Manejar mis facturas</a>
+                </div>
+            </div>
+        </div>
+                <div class="table-responsive py-2">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Edad</th>
+                                <th>Pago:</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspHabitación</th>
+                                <th>Factura</th>
+                                <th colspan="2">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if object_list %}
+                                {% for e in object_list %}
+                                    {% if request.user.username == e.name %}
+                                        <tr>
+                                            <td><br>{{ e.name }}</td>
+                                            <td><br>{{ e.edad }}</td>
+                                            <td><br>{{ e.get_metodoDePago_display }}</td>
+                                            <td><br>{{ e.fechaDeInicio }}</td>
+                                            <td><br>{{ e.fechaDeFin }}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        {% for room in rooms %}
+                                                            {% if room.id == e.idRoom.id %}
+                                                                {% if room.price < 600 %}
+                                                                    <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="h-200 w-100" >
+                                                                {% elif room.price < 800 and room.price >= 600 %}
+                                                                    <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                                                                {% elif room.price < 900 and room.price >= 800 %}
+                                                                    <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                                                {% elif room.price <= 1000 and room.price >= 900 %}
+                                                                    <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+                                                                {% endif %}
+                                                           
+                                                        
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{ room.description }}</p>
+                                                        <p>Precio por día: {{ room.price }} CUP</p>
+                                                    </div>
+                                                </div> 
+                                                 {% endif %}{% endfor %}
+                                                </td>
+                                            <td>
+                                                {% for factura in facturas %}
+                                                    {% if factura.idRoom.id == e.idRoom.id and factura.idUsuario.id == request.user.id and e.id == factura.idReservacion.id %}
+                                                        Monto a pagar: {{ factura.monto }}
+                                                        {% if factura.pagada %}
+                                                        <button class="btn btn-success disabled">Pagada</button>
+                                                        
+                                                         {% else %}
+                                                          <button class="btn btn-success disabled">Por pagar</button>
+                                                          {% endif %}
+                                                    {% endif %}
+                                                {% empty %}
+                                                    No hay factura asociada
+                                                {% endfor %}
+                                            </td>
+                                            <td><br><a href="{% url 'modificarReservaciones' e.id %}" class="btn"><img src="{% static 'medias/modificar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                            <td><br><a href="{% url 'eliminarReservaaciones' e.id %}" class="btn" ><img src="{% static 'medias/eliminar.png'%}" alt="" style="width: 40px;"></a> </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>No hay datos a mostrar</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{%endblock%}
+

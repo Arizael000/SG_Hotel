@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%} New Room {% endblock %}
+
+
+{% block content %}
+
+    <div class="bg-white">
+        <br>
+        <br>
+        {% block titulo %}
+            <h3 class="card-title text-center fw-bold">Añadir Habitación</h3>
+        {% endblock %}
+        <style>
+        .hide-field {
+            display: none;
+                }
+      </style>
+        <div class=" container w-50">
+
+            <form class="for form-control form-row" method="post">
+
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% block forms %}
+                        {{ form| crispy }}
+                    {% endblock %}
+
+
+                </div>
+                <div class=" justify-content-center">
+                    
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <a href="{% url 'listarRoom' %}" class="btn btn-danger float-right">Cancelar</a>
+
+                </div>
+            </form>
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+    </div>
+
+{% endblock %}
+

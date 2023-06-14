@@ -1,0 +1,313 @@
+{% load static %}
+{% load my_tags %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>{% block title %}{% endblock %} | SGHU</title>
+    <meta charset="iso-8859-1">
+    <meta name="author" content="Arizael/Elena/Daynelis">
+    <meta name="description" content="PW project">
+    <link rel="stylesheet" href="{% static 'css\estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css\estilosPrincipalOK.css' %}">
+    <link rel="stylesheet" href="{% static 'css\cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css\bootstrap-5.1.3-dist\css\bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css\estiloBoton.css'%}">
+    <script src="{% static 'js\bootstrap.js'%}"></script>
+    <script src="{% static 'js\bootstrap.min.js'%}"></script>
+    
+    <script src="{% static 'js\jquery-3.6.4.min.js'%}"></script>
+    <script src="{% static 'js\animate.js'%}"></script>
+    <link rel="icon" href="{% static 'medias/Logo SGAHU.jpg'%}" type="image/x-icon">
+    <script src="{% static 'js\botonFlotante.js'%}"></script>
+    
+</head>
+
+<body>
+<style>
+
+
+    nav {
+        background-color: #1c75bc;
+        color: #fff; /* Color de texto blanco para contrastar con el fondo azul */
+        padding: 10px; /* Agregar un poco de espacio entre el contenido y el borde del nav */
+    }
+
+</style>
+<button onclick="topFunction()" id="myBtn" title="Ir arriba">&#x25B2;</button>
+<header id="" class="">
+    <nav class="navbar navbar-expand-sm navbar-dark " id="naveg">
+        <div class="container-fluid">
+            <a href="../"class="navbar-brand"> <img src="{% static 'medias/Logo SGAHU.jpg'%}" class="img-fluid">&nbspSistema de Gesti&oacute;n del Hotel UCI</a>
+            <!-- Elementos del navbar -->
+            <a class="navbar-brand text-white" href="#"></a>
+
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link text-white" aria-current="page" href="{% url 'core:principal' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'listarReservaciones' %}">Reservaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" diabled href="{% url 'core:habitaciones' %}">Habitaciones</a>
+                </li>
+                <!-- AQUI VA LA CONDICIIONAL PARA RECEPCIONISTA Y ADMIN-->
+                {% if request.user.is_authenticated and not request.user|is_in_group:"Clientes" %}
+                      <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <img src="{% static 'medias/diente.png'%}" alt="" style="width: 30px;">
+                        </button>
+                        <ul class="dropdown-menu">
+                          {%if request.user.is_superuser%}
+                            <li><a class="dropdown-item" href="{% url 'manageReservation' %}">Administrar Reservaciones</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users_list' %}">Administrar Usuarios</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listarRoom' %}">Administrar Habitaciones</a></li>
+                            <li><a class="dropdown-item" href="{% url 'manageFactura' %}">Visualizar Facturas</a></li>
+                            <li><a class="dropdown-item" href="{% url 'CrearUsuarioView' %}">Crear Usuario</a></li>
+                          {%else%}
+                            <li><a class="dropdown-item" href="{% url 'manageReservation' %}">Administrar Reservaciones</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listarRoom' %}">Administrar Habitaciones</a></li>
+                            <li><a class="dropdown-item" href="{% url 'manageFactura' %}">Visualizar Facturas</a></li>
+                          {% endif %}
+                          </ul>
+                      </div>
+
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                   <li class="nav-item">
+                         <a class="nav-link text-white" href="{% url 'core:perfil' %}">Perfil: &nbsp{{request.user.username}}</a>
+                   </li>
+                    <li class="nav-item">
+                      <!-- cerrar sesión -->
+                         <a class="nav-link text-white" diabled href="{% url 'logout' %}">
+                          <img src="{% static 'medias/log-out.png'%}" alt="" style="width: 30px;">
+                         </a>
+                    </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link text-white" diabled href="{% url 'core:signup' %}">Registrarse</a>
+              </li>
+                <li class="nav-item">
+                  <!-- iniciar sesión -->
+                    <a class="nav-link text-white" href="{% url 'core:login' %}">
+                      <img src="{% static 'medias/login.png'%}" alt="" style="width: 30px;">
+                    </a>
+                </li>
+                
+                {% endif %}
+               
+            </ul>
+        </div>
+    </nav>
+
+    <section class="textos-header">
+      <h1 class="fw-bold">Disfrute de una estancia inolvidable</h1>
+      <h2 class="fw-bold">Confort y atención personalizada</h2>
+    </section>
+
+    <section>
+      <div class="wave" style="height: 150px; overflow: hidden;" ><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C150.00,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgb(255, 255, 255);"></path></svg></div>
+    </section>    
+</header>
+
+<main>
+<section class="container nuestro-hotel">
+  <h2 class="titulo fw-bold">Hotel UCI</h2>
+  <div class="container-nuestro-hotel">
+      <img src="{% static 'medias/recepcionOK.jpg'%}" alt="imagen recepcion" class="imagen-de-recepcion">
+      <div class="contenido-textos">
+          <h3><span>1</span>Las mejores habitaciones</h3>
+          <p>Las habitaciones de nuestro hotel están diseñadas para ofrecer una experiencia de alojamiento cómoda y agradable, y los huéspedes pueden esperar encontrar un ambiente tranquilo y relajante para descansar después de un largo día de viaje o actividades.</p>
+          <h3><span>2</span>Las mejores ofertas</h3>
+          <p>No pierdas la oportunidad de ahorrar en tu estadía mientras disfrutas de una experiencia de hospedaje inolvidable, aprovecha las ofertas  especiales de estancia prolongada en nuestro hotel.</p>
+      </div>
+  </div>
+</section>
+<section class="portafolio">
+  <div class="container">
+      <h2 class="titulo fw-bold">Universidad de las Ciencias Informáticas</h2>
+      <div class="galeria-port">
+          <div class="imagen-port">
+              <img src="{% static 'medias/imagen1.jpg'%}" class="img-thumbnail" alt="imagen1">
+              <div class="hover-galeria">
+                  <a href="../articleTwo"><img src="{% static 'medias/mask-solid-72.png'%}"/></a>
+                  <p>Cultura</p>
+              </div>
+          </div>
+          <div class="imagen-port">
+              <img src="{% static 'medias/imagen2.jpg'%}" class="img-thumbnail" alt="imagen2">
+              <div class="hover-galeria">
+                <a href="../articleThree"><img src="{% static 'medias/basketball-solid-72.png'%}"/></a>
+                  <p>Deporte</p>
+              </div>
+          </div>
+          <div class="imagen-port">
+              <img src="{% static 'medias/imagen3.jpg'%}" class="img-thumbnail" alt="imagen3">
+              <div class="hover-galeria">
+                <a href="{% url 'core:articleFour' %}"><img src="{% static 'medias/camera-solid-72.png'%}"/></a>
+                  <p>Recreación</p>
+              </div>
+          </div>
+          <div class="imagen-port">
+              <img src="{% static 'medias/imagen4.jpg'%}" class="img-thumbnail"alt="imagen4">
+              <div class="hover-galeria">
+                <a href="../articleOne"><img src="{% static 'medias/business-solid-72.png'%}"/></a>
+                  <p>Instalaciones</p>
+              </div>
+          </div>
+         
+      </div>
+  </div>
+</section>
+
+<section class="preguntas-frecuentes">
+  <div class="container">
+      <h2 class="titulo fw-bold">Preguntas Frecuentes</h2>  
+      <div class="accordion" id="accordionExample">
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  ¿Cuáles son las tarifas y disponibilidad de habitaciones?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <p>Para conocer las tarifas y la disponibilidad de habitaciones, debe ingresar las fechas de su estancia en nuestro sitio web o aplicaciones móviles y seleccionar el tipo de habitación que desea reservar. Nuestro sistema le mostrará las tarifas disponibles para las fechas de su estancia y el tipo de habitación seleccionado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  ¿Qué servicios se incluyen en la tarifa de la habitación?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <p>La tarifa de la habitación incluye los servicios básicos como el acceso a Internet, la limpieza diaria de la habitación y el uso de las instalaciones del hotel. Además, ofrecemos servicios adicionales como desayuno, servicio a la habitación, estacionamiento y otros que pueden estar disponibles por un costo adicional.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  ¿Cuál es la política de cancelación?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <p>Nuestra política de cancelación varía dependiendo de la tarifa seleccionada. Por lo general, ofrecemos tarifas flexibles que permiten cancelaciones hasta 24 o 48 horas antes de la fecha de llegada. Sin embargo, algunas tarifas especiales pueden tener condiciones de cancelación másrestrictivas. Le recomendamos revisar cuidadosamente las condiciones de la tarifa antes de hacer su reserva.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  ¿Puedo modificar mi reserva?
+                </button>
+              </h2>
+              <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p>Sí, puede modificar su reserva en cualquier momento, siempre y cuando la tarifa seleccionada lo permita. Para hacerlo, debe ingresar a su cuenta en nuestro sitio web o aplicaciones móviles y seguir los pasos indicados para modificar su reserva. Si tiene alguna duda o problema, puede contactar a nuestro equipo de atención al cliente.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                  ¿Cómo puedo pagar mi reserva?
+                </button>
+              </h2>
+              <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p>Ofrecemos diversas formas de pago: tarjeta de crédito, transferencia bancaria y en efectivo. Al hacer su reserva, le indicaremos las opciones de pago disponibles y los pasos a seguir para realizar el pago.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                  ¿Hay algún requisito especial para el check-in?
+                </button>
+              </h2>
+              <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p>Para el check-in, es necesario que presente una identificación oficial con fotografía, como un pasaporte o una tarjeta de identificación. Además, es posible que se requiera una tarjeta de crédito para garantizar el pago de posibles cargos adicionales, como el consumo de minibar o el uso de servicios adicionales. Si tiene algún requisito especial, como una habitación adaptada para personas con discapacidad,le recomendamos que nos informe al momento de hacer su reserva para poder hacer los arreglos necesarios.</p>
+                </div>
+              </div>
+            </div>
+
+        </div>
+  </div>
+
+</section>
+
+<section class="reserva-ya">
+  <div class="container text-center">
+      <div>
+          <img src="{% static 'medias/reservaAhora.png'%}" alt="imagen reserva ya" class="img-fluid" style="max-width: 400px;">
+      </div>
+      <div>
+        <a href="{% url 'core:habitaciones' %}"><button type="button" class="btn btn-primary btn-lg">¡Reserva ahora!</button></a>
+      </div>
+  </div>     
+</section>
+
+<section class="about-services">
+  <div class="container">
+      <h2 class="titulo fw-bold">Nuestros servicios</h2>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="servicio-ind">
+                  <img src="{% static 'medias/alojamiento.png'%}" alt="imagen de alojamiento">
+                  <h3>Alojamiento</h3>
+                  <p>El hotel proporciona habitaciones confortables y limpias para que los huéspedes puedan descansar durante su estancia.</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="servicio-ind">
+                  <img src="{% static 'medias/reception.png'%}" alt="imagen de recepcion">
+                  <h3>Recepción</h3>
+                  <p>Recepción abierta las 24 horas del día para ayudar a los huéspedes con sus necesidades, como hacer reservas, proporcionar información turística o ayudar en caso de emergencias.</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="servicio-ind">
+                  <img src="{% static 'medias/limpieza.png'%}" alt="imagen de servicio de limpieza">
+                  <h3>Limpieza</h3>
+                  <p>El hotel ofrece un servicio de limpieza diario para mantener las habitaciones y áreas comunes limpias y ordenadas.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+</main>
+<br>
+
+{%block content%}
+
+{%endblock%}
+</body>
+
+<footer>
+    
+    <p>Contáctenos +53 56215511   hoteluci@uci.cu <br></p>
+    
+    <p>&copy; CopyRight. Universidad de las Ciencias Inform&aacute;ticas - 2023</p>
+    
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+</html>

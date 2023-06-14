@@ -1,0 +1,101 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Sign up {% endblock %}
+
+
+
+{% block content %}
+
+<style>
+    body{
+        background-image: url("{% static 'medias/hotel fachada.jpg'%}");
+        background-size: cover;
+    }
+
+    .error-message {
+        color: red;
+        
+    }
+
+    .error-box {
+        background-color: white;
+        border: 2px solid red;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+{% if user.is_authenticated %}
+    <h1 class="text-center ">Ya ha iniciado sesión</h1>
+{% else %}
+    <div class="container mi-div p-5 ">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class=" w-70 p-5 rounded-3 border border-secondary" style="background: transparent; border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 20px; backdrop-filter: blur(15px);">
+                <h1 class="d-flex justify-content-center mb-6 text-3xl text-white">Registrarse</h1>
+                <br>
+                <form method="post" action="">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col">
+                           <div class="mb-3">
+                             <label class="form-label d-flex justify-content-center fw-bold text-white">Nombre de usuario</label>
+                             {{ form.username}}
+                           </div>
+
+                           <div class="mb-3">
+                             <label class="form-label d-flex justify-content-center fw-bold text-white">Email</label>
+                             {{ form.email}}
+                           </div>
+                        </div>
+
+                        <div class="col">
+                           <div class="mb-3">
+                             <label class="form-label d-flex justify-content-center fw-bold text-white">Contraseña</label>
+                             {{ form.password1}}
+                           </div>
+
+                           <div class="mb-3">
+                             <label class="form-label d-flex justify-content-center fw-bold text-white">Confirmar Contraseña</label>
+                             {{ form.password2}}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="error-box">
+                            <div class="error-message">
+                                {% for field in form %}
+                                    {{ field.errors }}
+                                {% endfor %}
+
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <br>
+                    <br>
+                    <div class="justify-content-center align-items-center d-flex">
+                        <button type="submit"  class="btn btn-primary mx-2">
+                            <a class="text-white text-decoration-none no-underline" onclick="window.location.href=''">Registrarse</a>
+                        </button>
+
+                        <div id="cancelar">
+                            <button type="button"   class="btn btn-secondary  float-md-end ">
+                                <a class="text-white text-decoration-none" onclick="window.history.back()">Cancelar</a>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Recreación {% endblock %}
+
+{% block content %}
+
+<!--Banner-->
+<section class="banner bg-white">
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-lg-6">
+        <!-- Aquí irá el primer anuncio o noticia -->
+  
+       
+            <h5 class="fs-3 fw-border border-bottom border-primary border-5 pb-4 fw-bolder"style="text-align: center;">Recreación variada</h5>
+            <div>
+              <p class="fs-5" style="text-align: justify;">
+
+                La Universidad de las Ciencias Informáticas cuenta con una piscina para la recreación de sus estudiantes, profesores y personal administrativo. Esta piscina es un espacio de esparcimiento muy popular durante los días calurosos, especialmente en la temporada de verano.
+
+                La piscina de la universidad es de tamaño mediano y cuenta con áreas para nadar y para jugar. También cuenta con una zona de solárium con tumbonas para tomar el sol y relajarse. Además, hay vestuarios y baños disponibles para los usuarios.
+
+
+                </p>
+                <p class="fs-5" style="text-align: justify;">
+                    La piscina es utilizada tanto para actividades deportivas como para eventos sociales. En ocasiones, se realizan competencias de natación y otros deportes acuáticos en la piscina. También se organizan fiestas y celebraciones en la zona de la piscina.
+
+                    La recreación en la piscina es una actividad muy valorada por los miembros de la comunidad universitaria, ya que les permite desconectar del trabajo y las responsabilidades y disfrutar de un ambiente agradable y refrescante. Además, es una oportunidad para socializar y conocer a otros compañeros y colegas de la universidad en un ambiente más relajado.
+                </p>
+            </div>
+            
+            
+          </div>
+       
+        <div class="col-lg-6">
+          <br>
+          <br>
+          <br>
+          <br>
+          <div>
+            <img src="{% static 'medias/recreacionPiscina.jpg'%}" class="d-block w-80 h-75 img-fluid img-thumbnail" alt="...">
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <div id="boton">
+            <style>
+              #boton{
+                padding-left: 460px;
+              }
+            </style>
+            <a href="{% url 'core:principal' %}" class="btn btn-secondary btn-lg">Volver</a>
+          </div>
+          
+          <br>  
+        </div>
+        
+  
+      </div>
+</section>
+
+   
+    
+  </div>
+</div>
+{% endblock %}

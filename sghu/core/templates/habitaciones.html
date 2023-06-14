@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Habitaciones disponibles</h1>
+    <hr>
+    {% for room in rooms %}
+    
+      <div class="row">
+        <div class="col-md-4">
+            {%if room.price < 600 %}
+                <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="img-fluid">
+                     {% elif room.price < 800 and room.price >= 600 %}
+                        <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                           {% elif room.price < 900 and room.price >= 800 %}
+                               <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                     {% elif room.price <= 1000 and room.price >= 900 %}
+                                        <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+            {%endif%}
+        </div>
+        <div class="col-md-8">
+          <h2>{{ room.description }}</h2>
+          <p>Precio: {{ room.price }} CUP</p>
+          <p>Ventilación: {{ room.get_ventilacion_display }}</p>
+          <p>Temperatura del agua: {{ room.get_temperaturaAgua_display }}</p>
+          <p>Televisión: {% if room.television %}Sí{% else %}No{% endif %}</p>
+          <a href="{% url 'crearReservaciones' room.id  %}" class="btn btn-primary"><i class='bx bxs-spreadsheet'></i>Reservar</a>
+          <!--room.id-->
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+
+{% endblock %}

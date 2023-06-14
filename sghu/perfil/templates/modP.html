@@ -1,0 +1,64 @@
+
+{%extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%} Modificar mi información {% endblock %}
+
+
+{% block content %}
+<br>
+<br>
+
+<style>
+    .form-background {
+        background-image: url('/static/medias/fondo.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }</style>
+    
+    
+    <div class=" container w-100" style="display: flex; height: 100vh";>
+    
+        <div class="info " style="width: 50%;">
+            <div style=" margin: 30px;">
+            <h1 class="d-flex justify-content-center mb-6 text-3xl">Maneje su información:</h1>
+            
+            
+            </div>  
+            <div>
+                <img src="{% static 'medias/ModPerfil.jpg'%}" alt="" style="height: 400px; width: 600px;"> 
+            </div>
+            
+        </div>
+        
+        <div style="width: 50%;">
+        
+            <form class="for form-control form-row form-background " method="post">
+                <div style="width: 450px; margin-left: 30px; margin-top: 10px;"><h4 class="d-flex justify-content-center mb-6 text-3xl text-center" style="text-align: center;">Moifique la información deseada: </h4> </div>
+            
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% block forms %}
+                        {{ form| crispy }}
+                    {% endblock %}
+                    <div id="room-details"></div>
+                </div>
+                <div class="text-center">
+                    
+                    <button type="submit" class="btn "><img src="{% static 'medias/check.png'%}" alt=""></button>
+                </div>
+                <br>
+                <h6 class="d-flex justify-content-center mb-6 text-3xl">Esta información <strong>&nbspNO&nbsp</strong> es pública</h6>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+        
+{% endblock %}
+
+

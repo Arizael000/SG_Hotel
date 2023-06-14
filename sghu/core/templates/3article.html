@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block title%} Modificar Perfil {% endblock %}
+
+
+
+{% block content %}
+<style>
+    body{
+        background-image: url("{% static 'medias/imagen hotel OK.jpg'%}");
+        background-size: cover;
+    }
+  </style>
+    <div class="text-center">
+      <img src="{% static 'medias/deporte-uci.jpg'%}" class="w-75 img-fluid img-thumbnail" alt="...">
+    </div>
+    <br>
+    <br>
+
+
+      
+<!--Banner-->
+<section class="banner bg-white">
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-md-10 mx-auto">
+        <!-- Aquí irá el primer anuncio o noticia -->
+  
+       
+            <h5 class="fs-3 fw-border border-bottom border-primary border-5 pb-4 fw-bolder"style="text-align: center;">Eventos deportivos</h5>
+            <div>
+              <p class="fs-5" style="text-align: justify;">
+
+                El deporte permite promover acciones prácticas para consolidar el desarrollo general integral de estudiantes, profesores y trabajadores, promoviendo estilos de vida saludable a partir de la práctica masiva de ejercicios físicos.
+
+                Nuestra Universidad dispone de una infraestructura que propicia el desarrollo de disciplinas como futsal, balonmano, baloncesto, voleibol, beisbol, atletismo, futbol, taekwondo, karate, kenpo, judo y lucha libre entre otras.
+
+                Disponemos de múltiples áreas para la práctica deportiva, distribuidas en todo el campus, que facilitan las clases de Educación Física y la recreación sana de la comunidad universitaria.
+                </p>
+                <p class="fs-5" style="text-align: justify;">
+                  Uno de los momentos más esperados por todos, lo constituyen los Juegos Deportivos Mella, torneo donde cada una de las facultades defiende los colores y mascotas que la representan, durante 10 días de competencia.
+
+                El juego ciencia recibe una especial atención a través del trabajo que realiza la Cátedra Honorífica de Ajedrez “Remberto Fernández”, fundada con el objetivo de promover el aprendizaje y entrenamiento de este deporte en la Universidad.
+
+                 Nuestra Universidad también exibe un movimiento de maratones que consolida su labor con la participación en eventos como Marhabana, Maracuba, la Carrera Terry Fox, Día Olímpico, Maratón 10 de Octubre entre otros.
+                </p>
+            </div>
+            
+            
+          </div>
+        </div>
+        <br>
+        <br>
+          
+       
+        
+
+          <div id="boton">
+            <style>
+              #boton{
+                padding-left: 940px;
+              }
+            </style>
+            <a href="{% url 'core:principal' %}" class="btn btn-secondary btn-lg">Volver</a>
+          </div>
+          
+          <br>  
+        </div>
+        
+  
+      </div>
+    </section>
+      <br>
+      <br>
+
+      {%endblock%}

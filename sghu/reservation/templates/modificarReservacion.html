@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%} Update Reservation {% endblock %}
+
+
+{% block content %}
+
+    <div class="bg-white">
+        <br>
+        <br>
+        {% block titulo %}
+            <h3 class="card-title text-center fw-bold">Actualizar Reservación</h3>
+        {% endblock %}
+
+        <div class="container w-50">
+
+            <form class="for form-control form-row" method="post">
+
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% block forms %}
+                        {{ form| crispy }}
+                    {% endblock %}
+
+
+                </div>
+                <div class="card-footer">
+                    {% block buttons %}
+                        <input type="submit" class="btn btn-primary" value="Actualizar">
+                    {% endblock %}
+
+
+                    <a onclick="history.back()" class="btn btn-danger">Cancelar</a>
+
+                </div>
+            </form>
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+    </div>
+{% endblock %}
+

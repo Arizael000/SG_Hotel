@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Manejar mis facturas {% endblock %}
+{% block content %}
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5em;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    td.actions {
+      white-space: nowrap;
+    }
+    td.actions form, td.actions a {
+      display: inline-block;
+      margin-right: 0.5em;
+    
+    }
+    
+  </style>
+  <div class="row bg-white justify-content-center">
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-11">
+        <br>
+        <h1 class="text-center">Mis facturas</h1>
+        <div class="table-responsive py-2">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Método de pago</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de fin</th>
+                        <th>Monto</th>
+                        <th>Habitación</th>
+                        <th colspan="2">&nbsp&nbsp&nbsp&nbsp&nbspEstado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fact in object_list %}
+                     {%if fact.idUsuario.id == request.user.id %}
+                        <tr>
+                            <td class="px-2">
+                                {% if fact.metodoDePago == "efectivo" %}
+                                    <p><br>Efectivo</p>
+                                 {% else %}
+                                   <p><br>Tarjeta</p>
+                                {% endif %}
+
+                            </td>
+                            <td class="px-2"><br>{{ fact.fechaDeInicio }}</td>
+                            <td class="px-2"><br>{{ fact.fechaDeFin }}</td>
+                            <td class="px-2"><br>{{ fact.monto }} CUP</td>
+                            <td class="px-2 col-12 col-md-4">
+                                {% for room in rooms %}
+                                    {% if room.id == fact.idRoom.id %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {% if room.price < 600 %}
+                                                    <img src="{% static 'medias/Habitaciones/1.jpg' %}" class="img-fluid" >
+                                                {% elif room.price < 800 and room.price >= 600 %}
+                                                    <img src="{% static 'medias/Habitaciones/2.jpg' %}" class="img-fluid">
+                                                {% elif room.price < 900 and room.price >= 800 %}
+                                                    <img src="{% static 'medias/Habitaciones/3.jpg' %}" class="img-fluid">
+                                                {% elif room.price <= 1000 and room.price >= 900 %}
+                                                    <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>{{ room.description }}</p>
+                                                <p>Precio por día: {{ room.price }} CUP</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            
+                            <td class="px-2 actions">
+                              {% if fact.metodoDePago == "tarjeta" %}
+                                <div class="d-flex justify-content-center">
+                                  {% if not fact.pagada %}
+                                    <form method="post" action="{% url 'userPagando' fact.pk %}">
+                                      {% csrf_token %}<br>
+                                      <button class="btn btn-success" type="submit">Pagar ahora</button>
+                                    </form>
+                                  {% else %}<br>
+                                    <button class="disabled btn btn-secondary" type="submit">Pago en revisión</button>
+                                  {% endif %}
+                                </div>
+                                {% else %}<br>
+                                <button class="disabled btn btn-secondary" type="submit">Debe dirigirse a la Recepción del Hotel</button>
+                              {% endif %}
+                              </td>
+                        </tr>
+                        <!--Este endif de abajo es para cerrar el if de facturas propias del usuario-->
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+       </div>
+     </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+{% endblock %}

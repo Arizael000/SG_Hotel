@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Welcome {% endblock %}
+
+{% block content %}
+<style>
+  body{
+      background-image: url("{% static 'medias/esteSi.jpg'%}");
+      background-size: 100% 100%;
+  
+  }
+  </style>
+  <br>
+  <br>
+  <br>
+
+  <div class="container d-flex justify-content-center align-items-center">
+      <div class=" w-70 bg-white p-5 rounded-3 border border-secondary">
+          <h1 class="d-flex justify-content-center mb-6 text-3xl">Modificar su información aquí:</h1>
+          <form method="post" class="" action="">
+            {% csrf_token %}
+          
+            <div class="row h-70 w-70 bg-light justify-content-center border-bottom border-top">
+              <div class="col-sm-3 form-label">
+                <p class="mb-0"><strong>Username:</strong></p>
+              </div>
+              <div class="col-sm-9">
+                <input id="usermod" name="usermod" class="rounded form-control form-control-sm" value="{{request.user.username}}">
+              </div>
+            </div>
+          
+            <div class="row h-70 w-70 bg-light justify-content-center border-bottom">
+              <div class="col-sm-3 form-label">
+                <p class="mb-0"><strong>Email:</strong></p>
+              </div>
+              <div class="col-sm-9">
+                <input id="emailmod" name="emailmod" class="rounded form-control form-control-sm" value="{{request.user.email}}">
+              </div>
+            </div>
+          
+            <div class="row h-70 w-70 bg-light justify-content-center border-bottom">
+              <div class="col-sm-3 form-label">
+                <p class="mb-0"><strong>Nombre:</strong></p>
+              </div>
+              <div class="col-sm-9">
+                <input id="nombremod" name="nombremod" class="rounded form-control form-control-sm" value="{{request.user.first_name}}">
+              </div>
+            </div>
+          
+            <div class="row h-70 w-70 bg-light justify-content-center border-bottom">
+              <div class="col-sm-3 form-label">
+                <p class="mb-0"><strong>Apellidos:</strong></p>
+              </div>
+              <div class="col-sm-9">
+                <input id="apellmod" name="apellmod" class="rounded form-control form-control-sm" value="{{request.user.last_name}}">
+              </div>
+            </div>
+          <br>
+            <div class="d-flex justify-content-center bg-transparent border-0">
+                <button type="submit"   class="btn mx-2 btn-success ">
+                  <a class="text-white text-decoration-none" onclick="window.location.href='{% url 'core:perfil' %}'">Aceptar</a>
+                </button>
+          
+                <button type="button"   class="btn btn-secondary mx-2  float-md-end ">
+                    <a class="text-white text-decoration-none" onclick="window.history.back()">Volver</a>
+                </button>
+              </div>
+          </form>
+        </div>
+    </div>
+      
+{% endblock%}

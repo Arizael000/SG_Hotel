@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%} Eliminar Room {% endblock %}
+
+
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+  <div>
+    <div class="card-header bg-primary text-white">
+      <h3 class="card-title text-center">Eliminar Room</h3>
+    </div>
+    <form class="for form-control form-row" method="post">
+      {% csrf_token %}
+      <div class="card-body">
+        <div class="alert alert-danger">
+          <strong>Cuidado!</strong>
+          <br>
+          Estas seguro de eliminar la Habitación {{ object.id }}.
+          <br>
+          <p><strong>Descripción:</strong> {{ object.description}} <strong>y Precio:</strong> {{ object.price }}<strong> y ventilacion:</strong> {{ object.get_ventilacion_display }}<strong> y Temperatura del Agua:</strong> {{ object.get_temperaturaAgua_display }}</p>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+        <input type="submit" class="btn btn-warning" value="Eliminar">
+        <a href="{% url 'listarReservaciones' %}" class="btn btn-danger">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}
