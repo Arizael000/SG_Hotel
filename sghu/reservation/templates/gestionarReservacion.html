@@ -1,9 +1,6 @@
 {%extends 'base.html'%}
 {% load static %}
 {%block title%} GestionarReservación {% endblock %}
-
-
-
 {% block content %}
     <div class="container">
     <div class="bg-white">
@@ -16,8 +13,6 @@
                 <div class="card-footer">
                        Reservaciones hechas: <strong>{{reservasPropias|length}}</strong>
                         <a href="{% url 'core:habitaciones' %}" class="btn btn-primary">Reservar</a>
-                   
-        
                     <a href="{% url 'userFactura' %}" class="btn btn-success float-end">Manejar mis facturas</a>
                 </div>
             </div>
@@ -60,8 +55,6 @@
                                                                 {% elif room.price <= 1000 and room.price >= 900 %}
                                                                     <img src="{% static 'medias/Habitaciones/4.jpg' %}" class="img-fluid">
                                                                 {% endif %}
-                                                           
-                                                        
                                                     </div>
                                                     <div class="col-md-6">
                                                         <p>{{ room.description }}</p>
@@ -102,8 +95,6 @@
         </div>
     </div>
 </div>
-
-
 <br>
 <br>
 <br>
